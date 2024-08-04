@@ -1,6 +1,9 @@
 <template>
   <div>
     <h1>{{ titulo }}</h1>
+    <div class="filtro">
+      Filtro: <input type="search" v-model="textoBuscar">
+    </div>
     <table>
       <thead>
         <tr>
@@ -19,11 +22,11 @@
           <th><input type="text" v-model="contacto.phone" placeholder="Teléfono"></th>
           <th><input type="text" v-model="contacto.country" placeholder="País"></th>
           <th><input type="text" v-model="contacto.city" placeholder="Ciudad"></th>
-          <th><button class="nuevo" @click="guardarNuevo()" >{{ this.contacto.id ? 'Editar' : 'Nuevo' }}</button></th>
+          <th><button class="nuevo" @click="guardarNuevo()">{{ this.contacto.id ? 'Editar' : 'Nuevo' }}</button></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(contacto, index) in contactos" :key="contacto.id">
+        <tr v-for="(contacto, index) in contactosComputed" :key="contacto.id">
           <td>{{ contacto.name }}</td>
           <td>{{ contacto.email }}</td>
           <td>{{ contacto.address }}</td>
@@ -46,6 +49,7 @@ export default {
   data() {
     return {
       titulo: 'Agenda de contactos',
+      textoBuscar: '',
       contacto: {
         name: '',
         email: '',
@@ -94,6 +98,14 @@ export default {
       ]
     }
   },
+  computed: {
+    contactosComputed() {
+      return this.contactos.filter(contacto => {
+        return contacto.name.toLowerCase().includes(this.textoBuscar.toLowerCase()) ||
+          contacto.email.toLowerCase().includes(this.textoBuscar.toLowerCase());
+      });
+    }
+  },
   methods: {
     guardarNuevo() {
       if (this.contacto.id) {
@@ -132,30 +144,40 @@ h1 {
   font-size: 20px;
 }
 
+.filtro {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+input {
+  padding: 8px;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   padding: 8px;
+  input {
+    width: 100%;
+  }
 }
 
 button {
   padding: 8px;
-    border-radius: 5px;
-    cursor: pointer;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 th {
   background-color: #f2f2f2;
   color: #42b983;
-  input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border-radius: 5px;
-  }
+
   .nuevo {
     background-color: #42b983;
     color: white;
@@ -165,10 +187,12 @@ th {
 td {
   text-align: left;
   border: 1px solid #ddd;
+
   .editar {
     background-color: #2196F3;
     color: white;
   }
+
   .eliminar {
     background-color: #f44336;
     color: white;
