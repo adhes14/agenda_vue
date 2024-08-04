@@ -19,7 +19,7 @@
           <th><input type="text" v-model="contacto.phone" placeholder="Teléfono"></th>
           <th><input type="text" v-model="contacto.country" placeholder="País"></th>
           <th><input type="text" v-model="contacto.city" placeholder="Ciudad"></th>
-          <th><button class="nuevo" @click="guardarNuevo()" >Nuevo</button></th>
+          <th><button class="nuevo" @click="guardarNuevo()" >{{ this.contacto.id ? 'Editar' : 'Nuevo' }}</button></th>
         </tr>
       </thead>
       <tbody>
@@ -30,7 +30,10 @@
           <td>{{ contacto.phone }}</td>
           <td>{{ contacto.country }}</td>
           <td>{{ contacto.city }}</td>
-          <td><button class="eliminar" @click="eliminarContacto(index)">⛔</button></td>
+          <td>
+            <button class="editar" @click="editarContacto(contacto)">Editar</button>
+            <button class="eliminar" @click="eliminarContacto(index)">Eliminar</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -79,15 +82,29 @@ export default {
           country: 'Mexico',
           city: 'Mexico City',
         },
+        {
+          id: 4,
+          name: 'David Lee',
+          email: 'david@mail.com',
+          address: '1234 Main St, Springfield, IL 62701',
+          phone: '217-555-9889',
+          country: 'USA',
+          city: 'Florida',
+        }
       ]
     }
   },
   methods: {
     guardarNuevo() {
-      if (this.contacto.id === 0) this.contacto.id = this.contactos.length + 1;
-      this.contactos.push({
-        ...this.contacto,
-      });
+      if (this.contacto.id) {
+        const index = this.contactos.findIndex(contacto => contacto.id === this.contacto.id);
+        this.contactos[index] = { ...this.contacto };
+      } else {
+        this.contacto.id = this.contactos.length + 1;
+        this.contactos.push({
+          ...this.contacto,
+        });
+      }
       this.contacto = {
         id: 0,
         name: '',
@@ -97,6 +114,9 @@ export default {
         country: '',
         city: '',
       };
+    },
+    editarContacto(contacto) {
+      this.contacto = { ...contacto };
     },
     eliminarContacto(key) {
       console.log(key);
@@ -145,6 +165,10 @@ th {
 td {
   text-align: left;
   border: 1px solid #ddd;
+  .editar {
+    background-color: #2196F3;
+    color: white;
+  }
   .eliminar {
     background-color: #f44336;
     color: white;
