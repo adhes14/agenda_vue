@@ -1,8 +1,5 @@
 # Práctica 1 con Vue3
 
-## Integrantes
-- Adhemar Durán Gahuincha
-
 ## Project setup
 ```sh
 git clone https://github.com/adhes14/agenda_vue.git
