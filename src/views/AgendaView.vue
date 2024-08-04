@@ -13,12 +13,12 @@
           <th></th>
         </tr>
         <tr>
-          <th><input type="text" v-model="contactoNuevo.name" placeholder="Nombre"></th>
-          <th><input type="text" v-model="contactoNuevo.email" placeholder="Email"></th>
-          <th><input type="text" v-model="contactoNuevo.address" placeholder="Dirección"></th>
-          <th><input type="text" v-model="contactoNuevo.phone" placeholder="Teléfono"></th>
-          <th><input type="text" v-model="contactoNuevo.country" placeholder="País"></th>
-          <th><input type="text" v-model="contactoNuevo.city" placeholder="Ciudad"></th>
+          <th><input type="text" v-model="contacto.name" placeholder="Nombre"></th>
+          <th><input type="email" v-model="contacto.email" placeholder="Email"></th>
+          <th><input type="text" v-model="contacto.address" placeholder="Dirección"></th>
+          <th><input type="text" v-model="contacto.phone" placeholder="Teléfono"></th>
+          <th><input type="text" v-model="contacto.country" placeholder="País"></th>
+          <th><input type="text" v-model="contacto.city" placeholder="Ciudad"></th>
           <th><button class="nuevo" @click="guardarNuevo()" >Nuevo</button></th>
         </tr>
       </thead>
@@ -30,7 +30,7 @@
           <td>{{ contacto.phone }}</td>
           <td>{{ contacto.country }}</td>
           <td>{{ contacto.city }}</td>
-          <td><button class="eliminar" @click="eliminarContacto(index)">Eliminar</button></td>
+          <td><button class="eliminar" @click="eliminarContacto(index)">⛔</button></td>
         </tr>
       </tbody>
     </table>
@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       titulo: 'Agenda de contactos',
-      contactoNuevo: {
+      contacto: {
         name: '',
         email: '',
         address: '',
@@ -84,11 +84,12 @@ export default {
   },
   methods: {
     guardarNuevo() {
+      if (this.contacto.id === 0) this.contacto.id = this.contactos.length + 1;
       this.contactos.push({
-        id: this.contactos.length + 1,
-        ...this.contactoNuevo,
+        ...this.contacto,
       });
-      this.contactoNuevo = {
+      this.contacto = {
+        id: 0,
         name: '',
         email: '',
         address: '',
