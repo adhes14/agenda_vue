@@ -1,17 +1,22 @@
-# agenda_contactos
+# Práctica 1 con Vue3
+
+## Integrantes
+- Adhemar Durán Gahuincha
 
 ## Project setup
-```
+```sh
+git clone https://github.com/adhes14/agenda_vue.git
+cd agenda_vue
 npm install
 ```
 
 ### Compiles and hot-reloads for development
-```
+```sh
 npm run serve
 ```
 
 ### Compiles and minifies for production
-```
+```sh
 npm run build
 ```
 
